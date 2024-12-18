@@ -1,0 +1,54 @@
+/* Fallback для браузерів без підтримки webp */
+.hero {
+  height: 696px;
+  background-image: image-set(
+    url('../../img/hero/hero_1x.jpg') 1x,
+    url('../../img/hero/hero_2x.jpg') 2x
+  );
+}
+
+/* Використання WebP, якщо підтримується */
+.hero {
+  background-image: image-set(
+    url('../../img/hero/hero_webp_1x.webp') 1x,
+    url('../../img/hero/hero_webp_2x.webp') 2x
+  );
+}
+
+.title {
+  color: var(--inputs);
+  text-align: left;
+  margin-left: 64px;
+  padding-top: 260px;
+}
+.title_main_text {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 32px;
+  margin-bottom: 16px;
+}
+.title_text {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.title_button {
+  margin-top: 40px;
+  padding: 16px 60px 16px 60px;
+  gap: 10px;
+  border-radius: 200px;
+  color: var(--white);
+  background-color: var(--button);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.005em;
+  transition: var(--transition);
+}
+
+.title_button:hover {
+  background-color: var(--button-hover);
+}
