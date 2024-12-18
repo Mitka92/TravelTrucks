@@ -1,0 +1,11 @@
+/* .campers_list_container {
+
+} */
+
+.campers_list {
+  width: 888px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-sizing: border-box;
+}
