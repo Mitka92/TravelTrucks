@@ -1,6 +1,6 @@
 import css from './CampersListItem.module.css';
-import sprite from '../../img/icons/sprite.svg';
 import { Link } from 'react-router-dom';
+import sprite from '../../img/icons/sprite.svg';
 
 const Icon = ({ id, fill, size, className, stroke, ...props }) => (
   <svg

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   selectCampers,
@@ -14,6 +13,8 @@ const CampersList = () => {
 
   return (
     <>
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
       {campers.length > 0 && (
         <div className={css.campers_list_container}>
           <ul className={css.campers_list}>
@@ -26,8 +27,6 @@ const CampersList = () => {
           </ul>
         </div>
       )}
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
     </>
   );
 };
