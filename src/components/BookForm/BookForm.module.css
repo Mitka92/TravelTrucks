@@ -1,0 +1,64 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 641px;
+  padding: 44px 57px;
+  color: var(--gray);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.input,
+.textarea {
+  background-color: var(--inputs);
+  border: none;
+  outline: none;
+  height: 60px;
+  padding: 18px;
+}
+.textarea {
+  resize: none; /* Забороняє зміну розміру */
+  height: 118px; /* Фіксована висота */
+  overflow: auto; /* Показує скролл, якщо текст перевищує висоту */
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: #007bff;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.submitButton {
+  margin-bottom: 24px;
+  cursor: pointer;
+  color: var(--white);
+  background-color: var(--button);
+  outline: none;
+  border: none;
+  width: 166px;
+  padding: 16px 63px;
+  border-radius: 200px;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.005em;
+  margin: 0 auto;
+  transition: var(--transition);
+}
+
+.submitButton:hover {
+  background-color: var(--button-hover);
+}

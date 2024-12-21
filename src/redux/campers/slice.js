@@ -1,18 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCampers } from './operations';
+import { getCampers, getCamperById } from './operations';
 
 const initialState = {
-  campers: [],
+  total: 0,
+  items: [],
   favoriteCampers: [],
-  uniqueLocations: [],
+  currentCamper: null,
+  filters: {}, // Додаємо фільтри в стейт
   loading: false,
   error: null,
+  page: 1, // Поточна сторінка
 };
 
 const campersSlice = createSlice({
   name: 'campers',
   initialState,
-  reducers: {},
+  reducers: {
+    clearCampers: state => {
+      state.items = [];
+    },
+    setFilters: (state, action) => {
+      state.filters = action.payload; // Оновлюємо фільтри
+    },
+    setPage: (state, action) => {
+      state.page = action.payload; // Оновлюємо сторінку
+    },
+  },
   extraReducers: builder =>
     builder
       .addCase(getCampers.pending, state => {
@@ -20,18 +33,31 @@ const campersSlice = createSlice({
         state.error = null;
       })
       .addCase(getCampers.fulfilled, (state, action) => {
+        const { items, total } = action.payload;
         state.loading = false;
-        state.campers = action.payload.items;
-        // Зібрати унікальні локації
-        const uniqueLocations = Array.from(
-          new Set(action.payload.items.map(item => item.location))
+        state.total = total;
+        const uniqueItems = items.filter(
+          item => !state.items.some(existingItem => existingItem.id === item.id)
         );
-        state.uniqueLocations = uniqueLocations;
+        state.items = [...state.items, ...uniqueItems];
       })
       .addCase(getCampers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getCamperById.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCamperById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentCamper = action.payload;
+      })
+      .addCase(getCamperById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),
 });
 
+export const { setFilters, clearCampers, setPage } = campersSlice.actions;
 export const campersReducer = campersSlice.reducer;

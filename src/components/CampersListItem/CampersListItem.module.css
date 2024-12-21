@@ -112,7 +112,9 @@
   fill: var(--main);
   margin-right: 8px;
 }
-
+.rating_icon {
+  margin-right: 4px;
+}
 .box {
   display: flex;
   align-items: center;
@@ -126,10 +128,6 @@
   padding: 12px 18px;
   text-transform: capitalize;
   /* justify-content: center; */
-}
-
-.rating_icon {
-  margin-right: 4px;
 }
 
 .heart_icon {

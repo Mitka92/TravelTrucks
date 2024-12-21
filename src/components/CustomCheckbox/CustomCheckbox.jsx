@@ -1,9 +1,11 @@
 import { Formik, Field, Form } from 'formik';
 import css from './CustomCheckbox.module.css';
 import sprite from '../../img/icons/sprite.svg';
-import Select from 'react-select'; // Імпорт Select з react-select
-import { useSelector } from 'react-redux';
-import { selectUniqueLocations } from '../../redux/campers/selectors.js';
+import { useDispatch } from 'react-redux';
+import { getCampers, setFilters } from '../../redux/campers/operations.js';
+import { useEffect } from 'react';
+import { selectFilters } from '../../redux/campers/selectors.js';
+import { clearCampers, setPage } from '../../redux/campers/slice.js';
 
 const Icon = ({ id, fill, size, className, stroke, ...props }) => (
   <svg
@@ -16,15 +18,16 @@ const Icon = ({ id, fill, size, className, stroke, ...props }) => (
   </svg>
 );
 
-const icons = [
+const filterOptions = [
   {
-    id: 'ac',
+    id: 'AC',
     label: 'AC',
     icon: <Icon id="icon-wind" className={css.icon} size="32px" />,
   },
   {
-    id: 'automatic',
+    id: 'transmission',
     label: 'Automatic',
+    value: 'automatic',
     icon: <Icon id="icon-diagram" className={css.icon} size="32px" />,
   },
   {
@@ -33,7 +36,7 @@ const icons = [
     icon: <Icon id="icon-cup" className={css.icon} size="32px" />,
   },
   {
-    id: 'tv',
+    id: 'TV',
     label: 'TV',
     icon: <Icon id="icon-tv" className={css.icon} size="32px" />,
   },
@@ -44,8 +47,7 @@ const icons = [
   },
 ];
 
-// Дані для радіокнопок
-const vehicleTypes = [
+const form = [
   {
     id: 'panelTruck',
     label: 'Van',
@@ -103,14 +105,50 @@ const IconRadio = ({ field, icon }) => {
 };
 
 const IconsForm = () => {
+  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{
-        icons: [],
-        vehicleType: '',
-        location: '',
+        filters: [], // Масив чекбоксів
+        form: '', // Тип транспортного засобу
+        location: '', // Локація
       }}
-      onSubmit={values => console.log('Form values:', values)}
+      onSubmit={values => {
+        const filters = {};
+
+        // Перевірка на валідність локації перед додаванням у фільтри
+        if (values.location && values.location !== 'н') {
+          filters['location'] = values.location;
+        }
+        if (values.form) filters['form'] = values.form;
+
+        // Додаємо інші фільтри, якщо вони вибрані
+        values.filters.forEach(filter => {
+          if (filter === 'AC') filters['AC'] = true;
+          if (filter === 'transmission') filters['transmission'] = 'automatic';
+          if (filter === 'kitchen') filters['kitchen'] = true;
+          if (filter === 'TV') filters['TV'] = true;
+          if (filter === 'bathroom') filters['bathroom'] = true;
+        });
+
+        // Форматування об'єкта `filters` для використання в запиті
+        const formattedFilters = Object.entries(filters).reduce(
+          (acc, [key, value]) => {
+            acc[`filters[${key}]`] = value;
+            return acc;
+          },
+          {}
+        );
+
+        // Очищення items перед запитом
+        dispatch(clearCampers());
+        dispatch(setPage(1));
+        // Записуємо фільтри в Redux стейт
+        dispatch(setFilters(filters));
+
+        // Запит на сервер із правильним форматом параметрів
+        dispatch(getCampers(formattedFilters));
+      }}
     >
       {({ handleSubmit }) => (
         <Form className={css.form_container} onSubmit={handleSubmit}>
@@ -121,18 +159,19 @@ const IconsForm = () => {
                 name="location"
                 className={css.input}
                 placeholder="Kyiv, Ukraine"
-              ></Field>
+              />
               <Icon id="icon-map" className={css.icon_map} size="20px" />
             </div>
           </div>
+
           <h3 className={css.filters_title}>Filters</h3>
           <h3 className={css.title}>Vehicle Equipment</h3>
           <div className={css.container}>
-            {icons.map(icon => (
+            {filterOptions.map(option => (
               <Field
-                key={icon.id}
-                name="icons"
-                icon={icon}
+                key={option.id}
+                name="filters"
+                icon={option}
                 component={IconCheckbox}
               />
             ))}
@@ -140,10 +179,10 @@ const IconsForm = () => {
 
           <h3 className={css.title}>Vehicle Type</h3>
           <div className={css.container}>
-            {vehicleTypes.map(type => (
+            {form.map(type => (
               <Field
                 key={type.id}
-                name="vehicleType"
+                name="form"
                 icon={type}
                 component={IconRadio}
               />
@@ -151,7 +190,7 @@ const IconsForm = () => {
           </div>
 
           <button type="submit" className={css.submit_button}>
-            Submit
+            Search
           </button>
         </Form>
       )}
