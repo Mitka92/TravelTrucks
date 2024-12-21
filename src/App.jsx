@@ -4,7 +4,7 @@ import HomePage from './pages/HomePage/HomePage.jsx';
 import CatalogPage from './pages/CatalogPage/CatalogPage.jsx';
 import CamperDetailsPage from './pages/CamperDetailsPage/CamperDetailsPage.jsx';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage.jsx';
-import Header from './components/header/header.jsx';
+import Header from './components/Header/Header.jsx';
 import CamperFeatures from './components/CamperFeatures/CamperFeatures.jsx';
 import CamperReviews from './components/CamperReviews/CamperReviews.jsx';
 import { Toaster } from 'react-hot-toast'; // Імпортуємо Toaster
