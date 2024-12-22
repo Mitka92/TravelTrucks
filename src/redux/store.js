@@ -11,9 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { campersReducer } from './campers/slice.js';
-// import { authReducer } from './auth/slice';
-// import { settingsReducer } from './settings/slice';
-// import { waterReducer } from './water/slice';
+
 
 const persistConfig = {
   key: 'favoriteCampers',

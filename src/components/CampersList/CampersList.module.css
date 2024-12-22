@@ -1,6 +1,11 @@
-/* .campers_list_container {
-
-} */
+.campers_list_container {
+  width: 888px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+}
 
 .campers_list {
   width: 888px;
@@ -23,10 +28,16 @@
   width: 166px;
   transition: var(--transition);
   cursor: pointer;
-  margin: 0 auto;
-  margin-top: 40px;
 }
 
 .load_more:hover {
   border-color: var(--button-hover);
+}
+.no_found {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  color: var(--main);
+  text-align: center;
+  margin-top: 100px;
 }

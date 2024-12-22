@@ -34,6 +34,7 @@ nav {
   color: var(--main);
   position: relative;
   padding-bottom: 24px; /* Додатковий відступ для візуального балансу */
+  transition: color 0.3s; /* Плавна зміна кольору */
 }
 .link:hover {
   color: var(--button);

@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <Header />
-      <Toaster /> {/* Додаємо компонент ToastContainer */}
+      <Toaster />
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />

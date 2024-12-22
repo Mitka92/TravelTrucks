@@ -2,27 +2,17 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MoreInfo from '../MoreInfo/MoreInfo.jsx';
 import css from './CamperDetails.module.css';
-import sprite from '../../img/icons/sprite.svg';
 import { selectCurrentCamper } from '../../redux/campers/selectors.js';
-import BookForm from '../BookForm/BookForm.jsx';
+import Icon from '../Icon/Icon.jsx';
+import Loader from '../Loader/Loader.jsx';
 
-const Icon = ({ id, fill, size, className, stroke, ...props }) => (
-  <svg
-    className={`${css.icon} ${className || ''}`.trim()}
-    width={size}
-    height={size}
-    {...props}
-  >
-    <use xlinkHref={`${sprite}#${id}`} style={{ fill: fill, stroke: stroke }} />
-  </svg>
-);
 const CamperDetails = () => {
   const camper = useSelector(selectCurrentCamper);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState('');
 
   if (!camper) {
-    return <p>Loading...</p>; // Або інший індикатор завантаження
+    return <Loader />;
   }
 
   const { name, location, rating, price, reviews, gallery, description } =

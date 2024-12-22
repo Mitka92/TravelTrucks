@@ -29,6 +29,9 @@
   align-items: center;
   margin-top: 8px;
 }
+.underline {
+  border-bottom: 1px solid var(--main);
+}
 .thumb_4 {
   display: flex;
   flex-wrap: wrap;
@@ -41,9 +44,9 @@
   color: var(--main);
   display: inline;
   max-width: 350px;
-  white-space: nowrap; /* Забороняє перенос тексту */
-  overflow: hidden; /* Ховає зайвий текст */
-  text-overflow: ellipsis; /* Додає ... до обрізаного тексту */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .price {
   font-size: 24px;
@@ -55,10 +58,14 @@
 
 .rating {
   display: inline;
-  margin-right: 16px;
 }
 .location {
   display: inline;
+}
+.location_box {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
 }
 .description {
   font-size: 16px;
@@ -66,14 +73,10 @@
   line-height: 24px;
   text-align: left;
   color: var(--text);
-  white-space: nowrap; /* Забороняє перенос тексту */
-  overflow: hidden; /* Ховає зайвий текст */
-  text-overflow: ellipsis; /* Додає ... до обрізаного тексту */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-/* .inline {
-  display: inline;
-} */
 
 .button {
   font-size: 16px;
@@ -93,18 +96,6 @@
 .button:hover {
   background-color: var(--button-hover);
 }
-
-/* .option {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 20px;
-  text-align: center;
-  background-color: var(--badges);
-  color: var(--main);
-  border-radius: 100px;
-  padding: 12px 18px;
-  text-transform: capitalize;
-} */
 
 .icon {
   width: 20px;
@@ -127,14 +118,17 @@
   border-radius: 100px;
   padding: 12px 18px;
   text-transform: capitalize;
-  /* justify-content: center; */
 }
 
-.heart_icon {
+.heart_icon,
+.heartIconFilled {
   margin-right: 0;
   margin-left: 12px;
   cursor: pointer;
   transition: var(--transition);
+}
+.heartIconFilled {
+  fill: var(--button);
 }
 
 .heart_icon:hover {

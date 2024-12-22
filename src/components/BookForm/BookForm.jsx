@@ -2,7 +2,6 @@ import css from './BookForm.module.css';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
-
 const BookForm = () => {
   // Схема валідації за допомогою Yup
   const validationSchema = Yup.object({
@@ -35,6 +34,12 @@ const BookForm = () => {
     >
       {() => (
         <Form className={css.form}>
+          <div className={css.form_title_container}>
+            <h3 className={css.form_title}>Book your campervan now</h3>
+            <p className={css.form_text}>
+              Stay connected! We are always ready to help you.
+            </p>
+          </div>
           <div className={css.formGroup}>
             <Field
               id="name"

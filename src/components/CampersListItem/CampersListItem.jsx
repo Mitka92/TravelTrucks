@@ -1,17 +1,10 @@
+import { selectFavorite } from '../../redux/campers/selectors.js';
+import Icon from '../Icon/Icon.jsx';
 import css from './CampersListItem.module.css';
 import { Link } from 'react-router-dom';
-import sprite from '../../img/icons/sprite.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorite } from '../../redux/campers/slice.js';
 
-const Icon = ({ id, fill, size, className, stroke, ...props }) => (
-  <svg
-    className={`${css.icon} ${className || ''}`.trim()}
-    width={size}
-    height={size}
-    {...props}
-  >
-    <use xlinkHref={`${sprite}#${id}`} style={{ fill: fill, stroke: stroke }} />
-  </svg>
-);
 const CampersListItem = ({
   id,
   name,
@@ -33,6 +26,16 @@ const CampersListItem = ({
   engine,
   transmission,
 }) => {
+  const dispatch = useDispatch();
+  const favoriteCampers = useSelector(selectFavorite); // Отримуємо список улюблених кемперів з Redux
+
+  const handleClick = () => {
+    console.log(id);
+    dispatch(toggleFavorite(id)); // Викликаємо action для додавання або видалення ID з улюблених
+  };
+
+  const isFavorite = favoriteCampers.includes(id); // Перевіряємо, чи цей кемпер вже в улюблених
+
   return (
     <li className={css.item}>
       <img className={css.image} src={gallery[0].thumb} />
@@ -43,7 +46,12 @@ const CampersListItem = ({
             <span>
               {' '}
               <p className={css.price}>&#x20AC;{price}.00</p>
-              <Icon id="icon-heart" size="24px" className={css.heart_icon} />
+              <Icon
+                id={'icon-heart'}
+                size="24px"
+                className={isFavorite ? css.heartIconFilled : css.heart_icon} // Динамічно вибираємо клас із CSS модуля
+                onClick={handleClick} // Обробник кліку для додавання/видалення з улюблених
+              />
             </span>
           </div>
 
@@ -55,17 +63,22 @@ const CampersListItem = ({
               fill="#FFC531"
               size="16px"
             />
-            <p className={css.rating}>
-              {rating}({reviews.length} Reviews)
-            </p>
-            <Icon
-              className={css.rating_icon}
-              id="icon-map"
-              stroke="none"
-              fill="inherit"
-              size="16px"
-            />
-            <p className={css.location}>{location}</p>
+            <div className={css.underline}>
+              <p className={css.rating}>
+                {rating}({reviews.length} Reviews)
+              </p>
+            </div>
+            <div className={css.location_box}>
+              {' '}
+              <Icon
+                className={css.rating_icon}
+                id="icon-map"
+                stroke="none"
+                fill="inherit"
+                size="16px"
+              />
+              <p className={css.location}>{location}</p>
+            </div>
           </div>
         </div>
 
@@ -76,53 +89,54 @@ const CampersListItem = ({
         <div className={css.thumb_4}>
           {transmission === 'automatic' && (
             <div className={css.box}>
-              <Icon id="icon-diagram" size="20px" />
+              <Icon className={css.icon} id="icon-diagram" size="20px" />
               <p className={css.option}>{transmission}</p>
             </div>
           )}
           <div className={css.box}>
-            <Icon id="icon-petrol" size="20px" />
+            <Icon className={css.icon} id="icon-petrol" size="20px" />
             <p className={css.option}>{engine}</p>
           </div>
           {AC && (
             <div className={css.box}>
-              <Icon id="icon-wind" size="20px" />
+              <Icon className={css.icon} id="icon-wind" size="20px" />
               <p className={css.option}>AC</p>
             </div>
           )}
           {bathroom && (
             <div className={css.box}>
-              <Icon id="icon-shower" size="20px" />
+              <Icon className={css.icon} id="icon-shower" size="20px" />
               <p className={css.option}>Bathroom</p>
             </div>
           )}
           {kitchen && (
             <div className={css.box}>
-              <Icon id="icon-cup" size="20px" />
+              <Icon className={css.icon} id="icon-cup" size="20px" />
               <p className={css.option}>Kitchen</p>
             </div>
           )}
           {TV && (
             <div className={css.box}>
-              <Icon id="icon-tv" size="20px" />
+              <Icon className={css.icon} id="icon-tv" size="20px" />
               <p className={css.option}>TV</p>
             </div>
           )}
           {radio && (
             <div className={css.box}>
-              <Icon id="icon-radio" size="20px" />
+              <Icon className={css.icon} id="icon-radio" size="20px" />
               <p className={css.option}>Radio</p>
             </div>
           )}
           {refrigerator && (
             <div className={css.box}>
-              <Icon id="icon-refrigerator" size="20px" />
+              <Icon className={css.icon} id="icon-refrigerator" size="20px" />
               <p className={css.option}>Refrigerator</p>
             </div>
           )}
           {microwave && (
             <div className={css.box}>
               <Icon
+                className={css.icon}
                 id="icon-microwave"
                 size="20px"
                 fill="none"
@@ -133,22 +147,34 @@ const CampersListItem = ({
           )}
           {gas && (
             <div className={css.box}>
-              <Icon id="icon-gas" fill="none" stroke="#101828" size="20px" />
+              <Icon
+                className={css.icon}
+                id="icon-gas"
+                fill="none"
+                stroke="#101828"
+                size="20px"
+              />
               <p className={css.option}>Gas</p>
             </div>
           )}
           {water && (
             <div className={css.box}>
-              <Icon id="icon-water" fill="none" stroke="#101828" size="20px" />
+              <Icon
+                className={css.icon}
+                id="icon-water"
+                fill="none"
+                stroke="#101828"
+                size="20px"
+              />
               <p className={css.option}>Water</p>
             </div>
           )}
         </div>
         <Link
           to={`/catalog/${id}/features`}
-          // target="_blank"
-          // rel="noopener noreferrer"
-          // replace
+          target="_blank"
+          rel="noopener noreferrer"
+          replace
         >
           <button className={css.button}>Show more</button>
         </Link>

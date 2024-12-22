@@ -50,14 +50,15 @@
 }
 .gallery {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 48px;
 }
 .image {
   border-radius: 10px;
   object-fit: cover;
   object-position: center;
   border: 1px solid var(--gray);
+  cursor: pointer;
 }
 
 .description {

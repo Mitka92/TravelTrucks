@@ -25,6 +25,16 @@ const campersSlice = createSlice({
     setPage: (state, action) => {
       state.page = action.payload; // Оновлюємо сторінку
     },
+    toggleFavorite: (state, action) => {
+      const camperId = action.payload;
+      if (!state.favoriteCampers.includes(camperId)) {
+        state.favoriteCampers.push(camperId); // Додаємо до улюблених
+      } else {
+        state.favoriteCampers = state.favoriteCampers.filter(
+          id => id !== camperId
+        ); // Якщо вже є, видаляємо
+      }
+    },
   },
   extraReducers: builder =>
     builder
@@ -59,5 +69,6 @@ const campersSlice = createSlice({
       }),
 });
 
-export const { setFilters, clearCampers, setPage } = campersSlice.actions;
+export const { setFilters, clearCampers, setPage, toggleFavorite } =
+  campersSlice.actions;
 export const campersReducer = campersSlice.reducer;

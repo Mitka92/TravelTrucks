@@ -2,6 +2,8 @@
   padding: 44px 52px;
   width: 631px;
   margin-top: 44px;
+  background-color: var(--inputs);
+  border-radius: 10px;
 }
 .thumb_4 {
   display: flex;
@@ -22,7 +24,6 @@
   border-radius: 100px;
   padding: 12px 18px;
   text-transform: capitalize;
-  /* justify-content: center; */
 }
 .icon {
   width: 20px;
