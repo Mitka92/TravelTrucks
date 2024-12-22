@@ -4,7 +4,7 @@ import css from './CampersListItem.module.css';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../redux/campers/slice.js';
-
+import Button from '../Button/Button.jsx';
 const CampersListItem = ({
   id,
   name,
@@ -176,7 +176,7 @@ const CampersListItem = ({
           rel="noopener noreferrer"
           replace
         >
-          <button className={css.button}>Show more</button>
+          <Button text="Show more" className={css.button} />
         </Link>
       </div>
     </li>

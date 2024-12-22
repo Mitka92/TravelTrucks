@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getCampers, setFilters } from '../../redux/campers/operations.js';
 import { clearCampers, setPage } from '../../redux/campers/slice.js';
 import Icon from '../Icon/Icon.jsx';
+import Button from '../Button/Button.jsx';
 
 const filterOptions = [
   {
@@ -53,7 +54,7 @@ const form = [
 ];
 
 // Компонент для чекбоксів
-const IconCheckbox = ({ field, icon }) => {
+const checkbox = ({ field, icon }) => {
   const { id, label, icon: IconComponent } = icon;
 
   return (
@@ -75,7 +76,7 @@ const IconCheckbox = ({ field, icon }) => {
 };
 
 // Компонент для радіокнопок
-const IconRadio = ({ field, icon }) => {
+const radio = ({ field, icon }) => {
   const { id, label, icon: IconComponent } = icon;
 
   return (
@@ -159,7 +160,7 @@ const Filters = () => {
                 key={option.id}
                 name="filters"
                 icon={option}
-                component={IconCheckbox}
+                component={checkbox}
               />
             ))}
           </div>
@@ -167,18 +168,10 @@ const Filters = () => {
           <h3 className={css.title}>Vehicle Type</h3>
           <div className={css.container}>
             {form.map(type => (
-              <Field
-                key={type.id}
-                name="form"
-                icon={type}
-                component={IconRadio}
-              />
+              <Field key={type.id} name="form" icon={type} component={radio} />
             ))}
           </div>
-
-          <button type="submit" className={css.submit_button}>
-            Search
-          </button>
+          <Button text="Search" className={css.submit_button} />
         </Form>
       )}
     </Formik>

@@ -11,6 +11,7 @@ import { getCampers } from '../../redux/campers/operations.js';
 import { setPage } from '../../redux/campers/slice.js'; // Імпортуємо екшен setPage
 import { useEffect } from 'react';
 import Loader from '../Loader/Loader.jsx';
+import Button from '../Button/Button.jsx';
 
 const CampersList = () => {
   const dispatch = useDispatch();
@@ -48,10 +49,13 @@ const CampersList = () => {
               ))}
             </ul>
             {isLoading && <Loader />}
+
             {buttonIsActive && (
-              <button className={css.load_more} onClick={loadMore}>
-                Load more
-              </button>
+              <Button
+                className={css.load_more}
+                text="Load more"
+                onClick={loadMore}
+              />
             )}
           </div>
         )

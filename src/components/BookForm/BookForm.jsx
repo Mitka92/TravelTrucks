@@ -2,6 +2,7 @@ import css from './BookForm.module.css';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
+import Button from '../Button/Button.jsx';
 const BookForm = () => {
   // Схема валідації за допомогою Yup
   const validationSchema = Yup.object({
@@ -88,9 +89,7 @@ const BookForm = () => {
               className={css.error}
             />
           </div>
-          <button type="submit" className={css.submitButton}>
-            Send
-          </button>
+          <Button text="Send" className={css.submitButton} />
         </Form>
       )}
     </Formik>

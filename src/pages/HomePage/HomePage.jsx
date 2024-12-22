@@ -1,6 +1,8 @@
 import React from 'react';
 import css from './HomePage.module.css';
 import { Link } from 'react-router-dom';
+import Button from '../../components/Button/Button.jsx';
+
 const HomePage = () => {
   return (
     <>
@@ -11,7 +13,7 @@ const HomePage = () => {
             You can find everything you want in our catalog
           </h2>
           <Link to="/catalog">
-            <button className={css.title_button}>View Now</button>
+            <Button text="View Now" className={css.title_button} />
           </Link>
         </div>
       </div>

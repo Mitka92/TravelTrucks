@@ -2,7 +2,7 @@ nav {
   display: flex;
   align-items: start;
   gap: 40px;
-  border-bottom: 1px solid var(--gray-light); /* Бордер для nav */
+  border-bottom: 1px solid var(--gray-light);
 }
 
 .link {
@@ -18,12 +18,12 @@ nav {
 .active::after {
   content: '';
   position: absolute;
-  bottom: -1mm; /* Виступає вниз на 2 мм + товщина бордера */
+  bottom: -1mm;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  height: 2mm; /* Висота 4 мм, щоб виступати на 2 мм вверх і вниз */
-  background-color: var(--button); /* Колір нижнього бордера */
+  height: 2mm;
+  background-color: var(--button);
 }
 
 .active {
@@ -33,8 +33,8 @@ nav {
   text-align: left;
   color: var(--main);
   position: relative;
-  padding-bottom: 24px; /* Додатковий відступ для візуального балансу */
-  transition: color 0.3s; /* Плавна зміна кольору */
+  padding-bottom: 24px;
+  transition: color 0.3s;
 }
 .link:hover {
   color: var(--button);

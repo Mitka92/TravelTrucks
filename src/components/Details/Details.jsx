@@ -115,19 +115,27 @@ const Details = ({ camper }) => {
         </div>
         <div className={css.info_box}>
           <h4 className={css.subtitle}>Length</h4>
-          <p className={css.text}>{length}</p>
+          <p className={css.text}>
+            {length.replace(/(\d+(\.\d+)?)([a-zA-Z]+)/, '$1 $3')}
+          </p>
         </div>
         <div className={css.info_box}>
           <h4 className={css.subtitle}>Width</h4>
-          <p className={css.text}>{width}</p>
+          <p className={css.text}>
+            {width.replace(/(\d+(\.\d+)?)([a-zA-Z]+)/, '$1 $3')}
+          </p>
         </div>
         <div className={css.info_box}>
           <h4 className={css.subtitle}>Height</h4>
-          <p className={css.text}>{height}</p>
+          <p className={css.text}>
+            {height.replace(/(\d+(\.\d+)?)([a-zA-Z]+)/, '$1 $3')}
+          </p>
         </div>
         <div className={css.info_box}>
           <h4 className={css.subtitle}>Tank</h4>
-          <p className={css.text}>{tank}</p>
+          <p className={css.text}>
+            {tank.replace(/(\d+(\.\d+)?)([a-zA-Z]+)/, '$1 $3')}
+          </p>
         </div>
         <div className={css.info_box}>
           <h4 className={css.subtitle}>Consumption</h4>
