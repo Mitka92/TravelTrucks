@@ -39,6 +39,18 @@ export const getCamperById = createAsyncThunk(
   }
 );
 
+export const getLocations = createAsyncThunk(
+  'campers/getLocations',
+  async (_, thunkApi) => {
+    try {
+      const { data } = await axios.get('/campers/');
+      return data.items;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const setFilters = filters => ({
   type: 'campers/setFilters',
   payload: filters,

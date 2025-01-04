@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCampers, getCamperById } from './operations';
+import { getCampers, getCamperById, getLocations } from './operations';
 
 const initialState = {
   total: 0,
@@ -7,6 +7,7 @@ const initialState = {
   favoriteCampers: [],
   currentCamper: null,
   filters: {}, // Додаємо фільтри в стейт
+  uniqueLocations: [],
   loading: false,
   error: null,
   page: 1, // Поточна сторінка
@@ -66,9 +67,29 @@ const campersSlice = createSlice({
       .addCase(getCamperById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(getLocations.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getLocations.fulfilled, (state, action) => {
+        state.loading = false;
+        const uniqueLocations = [
+          ...new Set(action.payload.map(item => item.location)),
+        ];
+        state.uniqueLocations = uniqueLocations;
+      })
+      .addCase(getLocations.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       }),
 });
 
-export const { setFilters, clearCampers, setPage, toggleFavorite } =
-  campersSlice.actions;
+export const {
+  setFilters,
+  clearCampers,
+  setPage,
+  toggleFavorite,
+  setLocations,
+} = campersSlice.actions;
 export const campersReducer = campersSlice.reducer;

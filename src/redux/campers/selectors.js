@@ -6,3 +6,4 @@ export const selectCurrentCamper = state => state.campers.currentCamper;
 export const selectFilters = state => state.campers.filters.filters;
 export const selectPage = state => state.campers.page;
 export const selectFavorite = state => state.campers.favoriteCampers;
+export const selectUniqueLocations = state => state.campers.uniqueLocations;

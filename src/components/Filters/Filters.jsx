@@ -1,10 +1,46 @@
 import css from './Filters.module.css';
 import { Formik, Field, Form } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCampers, setFilters } from '../../redux/campers/operations.js';
 import { clearCampers, setPage } from '../../redux/campers/slice.js';
 import Icon from '../Icon/Icon.jsx';
 import Button from '../Button/Button.jsx';
+import Select from 'react-select';
+import { components } from 'react-select';
+import { selectUniqueLocations } from '../../redux/campers/selectors.js';
+
+// Кастомний компонент Placeholder
+const CustomPlaceholder = props => {
+  return (
+    <components.Placeholder {...props}>
+      <span style={{ color: '#aaa', fontSize: '14px' }}>{props.children}</span>
+    </components.Placeholder>
+  );
+};
+
+// Налаштування стилів для Placeholder
+const customStyles = {
+  control: provided => ({
+    ...provided,
+    width: '100%',
+    paddingLeft: '40px',
+    fontSize: '16px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    color: '#333',
+    boxSizing: 'border-box',
+    cursor: 'pointer',
+  }),
+  placeholder: provided => ({
+    ...provided,
+    fontSize: '14px',
+  }),
+  option: provided => ({
+    ...provided,
+    fontSize: '14px',
+    cursor: 'pointer',
+  }),
+};
 
 const filterOptions = [
   {
@@ -93,20 +129,29 @@ const radio = ({ field, icon }) => {
 };
 
 const Filters = () => {
+  const locations = useSelector(selectUniqueLocations);
+  const locationOptions = locations.map(location => {
+    const [country, city] = location.split(', ');
+    return {
+      value: `${country}, ${city}`,
+      label: `${country}, ${city}`,
+    };
+  });
+
   const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{
         filters: [], // Масив чекбоксів
-        form: '', // Тип транспортного засобу
-        location: '', // Локація
+        form: null, // Тип транспортного засобу
+        location: null, // Локація
       }}
       onSubmit={values => {
         const filters = {};
 
         // Перевірка на валідність локації перед додаванням у фільтри
-        if (values.location && values.location !== 'н') {
-          filters['location'] = values.location;
+        if (values.location && values.location !== '') {
+          filters['location'] = values.location.value;
         }
         if (values.form) filters['form'] = values.form;
 
@@ -132,23 +177,33 @@ const Filters = () => {
         dispatch(clearCampers());
         dispatch(setPage(1));
         // Записуємо фільтри в Redux стейт
+        console.log(filters);
         dispatch(setFilters(filters));
 
         // Запит на сервер із правильним форматом параметрів
         dispatch(getCampers(formattedFilters));
       }}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, values, setFieldValue }) => (
         <Form className={css.form_container} onSubmit={handleSubmit}>
           <div className={css.location_container}>
             <h3 className={css.title_location}>Location</h3>
             <div className={css.input_container}>
-              <Field
-                name="location"
-                className={css.input}
-                placeholder="Kyiv, Ukraine"
-              />
               <Icon id="icon-map" className={css.icon_map} size="20px" />
+              <div className={css.input}>
+                <Select
+                  name="location"
+                  options={locationOptions}
+                  className={css.select}
+                  classNamePrefix="select"
+                  styles={customStyles}
+                  placeholder="Select location"
+                  components={{ Placeholder: CustomPlaceholder }} // використовується кастомний Placeholder
+                  value={values.location}
+                  onChange={option => setFieldValue('location', option)}
+                  isClearable
+                />
+              </div>
             </div>
           </div>
 
@@ -171,7 +226,7 @@ const Filters = () => {
               <Field key={type.id} name="form" icon={type} component={radio} />
             ))}
           </div>
-          <Button text="Search" className={css.submit_button} />
+          <Button type="submit" text="Search" className={css.submit_button} />
         </Form>
       )}
     </Formik>

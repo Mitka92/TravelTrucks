@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getCampers } from '../../redux/campers/operations.js';
+import { getCampers, getLocations } from '../../redux/campers/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
 import CampersList from '../../components/CampersList/CampersList.jsx';
 import Filters from '../../components/Filters/Filters.jsx';
@@ -8,6 +8,7 @@ const CatalogPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCampers());
+    dispatch(getLocations());
   }, [dispatch]);
   return (
     <div className={css.catalog_container}>
