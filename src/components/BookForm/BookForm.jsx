@@ -3,22 +3,45 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import Button from '../Button/Button.jsx';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 const BookForm = () => {
-  // Схема валідації за допомогою Yup
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
     email: Yup.string()
       .email('Invalid email address')
       .required('Email is required'),
-    booking: Yup.string().required('Booking date is required'),
+    bookingDate: Yup.date()
+      .required('Booking date is required')
+      .min(today, 'Booking date cannot be in the past'),
     comment: Yup.string(),
   });
 
   const handleSubmit = (values, { resetForm }) => {
-    // Показуємо повідомлення про успішний сабміт
-    toast.success('Form submitted successfully!');
-
-    // Скидаємо форму
+    toast.success(
+      <div>
+        Form submitted successfully!
+        <br />
+        <strong>Name:</strong> {values.name}
+        <br />
+        <strong>Email:</strong> {values.email}
+        <br />
+        <strong>Booking date:</strong>{' '}
+        {values.bookingDate
+          ? values.bookingDate.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          : 'Not selected'}
+        <br />
+        <strong>Comment:</strong> {values.comment}
+      </div>
+    );
     resetForm();
   };
 
@@ -27,13 +50,13 @@ const BookForm = () => {
       initialValues={{
         name: '',
         email: '',
-        booking: '',
-        comment: '', // Додано поле для коментаря
+        bookingDate: today,
+        comment: '',
       }}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit} // Використовуємо onSubmit на рівні форми
+      onSubmit={handleSubmit}
     >
-      {() => (
+      {({ errors, touched, setFieldValue, values }) => (
         <Form className={css.form}>
           <div className={css.form_title_container}>
             <h3 className={css.form_title}>Book your campervan now</h3>
@@ -62,24 +85,23 @@ const BookForm = () => {
             <ErrorMessage name="email" component="div" className={css.error} />
           </div>
           <div className={css.formGroup}>
-            <Field
-              id="booking"
-              name="booking"
-              type="text"
-              placeholder="Booking date*"
+            <DatePicker
+              id="bookingDate"
               className={css.input}
+              placeholderText="Select a booking date*"
+              selected={values.bookingDate}
+              onChange={date => setFieldValue('bookingDate', date)}
+              minDate={today}
             />
-            <ErrorMessage
-              name="booking"
-              component="div"
-              className={css.error}
-            />
+            {errors.bookingDate && touched.bookingDate && (
+              <div className={css.error}>{errors.bookingDate}</div>
+            )}
           </div>
           <div className={css.formGroup}>
             <Field
               id="comment"
               name="comment"
-              as="textarea" // Замінили на textarea
+              as="textarea"
               placeholder="Comment"
               className={css.textarea}
             />
@@ -89,7 +111,7 @@ const BookForm = () => {
               className={css.error}
             />
           </div>
-          <Button text="Send" className={css.submitButton} />
+          <Button type="submit" text="Send" className={css.submitButton} />
         </Form>
       )}
     </Formik>
