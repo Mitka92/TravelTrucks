@@ -30,7 +30,6 @@ const CampersListItem = ({
   const favoriteCampers = useSelector(selectFavorite); // Отримуємо список улюблених кемперів з Redux
 
   const handleClick = () => {
-    console.log(id);
     dispatch(toggleFavorite(id)); // Викликаємо action для додавання або видалення ID з улюблених
   };
 
