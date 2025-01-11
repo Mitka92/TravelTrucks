@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import css from './Loader.module.css'
+import css from './Loader.module.css';
 
-const Loader = () => {
+const Loader = ({ type }) => {
   return (
-    <div className={css.loader}>
+    <div className={type === 'page loader' ? css.loader : ''}>
       <StyledWrapper>
         <div className="loader">
           <svg

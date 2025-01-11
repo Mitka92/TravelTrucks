@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       <Toaster />
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader type="page loader" />}>
         <Header />
         <main>
           <Routes>
