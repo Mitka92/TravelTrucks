@@ -19,6 +19,7 @@ const campersSlice = createSlice({
   reducers: {
     clearCampers: state => {
       state.items = [];
+      state.total = 0;
     },
     setFilters: (state, action) => {
       state.filters = action.payload; // Оновлюємо фільтри
@@ -69,18 +70,18 @@ const campersSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(getLocations.pending, state => {
-        state.loading = true;
+        // state.loading = true;
         state.error = null;
       })
       .addCase(getLocations.fulfilled, (state, action) => {
-        state.loading = false;
+        // state.loading = false;
         const uniqueLocations = [
           ...new Set(action.payload.map(item => item.location)),
         ];
         state.uniqueLocations = uniqueLocations;
       })
       .addCase(getLocations.rejected, (state, action) => {
-        state.loading = false;
+        // state.loading = false;
         state.error = action.payload;
       }),
 });

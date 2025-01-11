@@ -44,7 +44,9 @@ const CampersListItem = ({
             <h2 className={css.name}>{name}</h2>
             <span>
               {' '}
-              <p className={css.price}>&#x20AC;{price}.00</p>
+              <p className={css.price}>
+                &#x20AC;{price ? Number(price).toFixed(2) : '0.00'}
+              </p>
               <Icon
                 id={'icon-heart'}
                 size="24px"

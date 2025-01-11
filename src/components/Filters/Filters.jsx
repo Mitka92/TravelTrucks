@@ -164,28 +164,22 @@ const Filters = () => {
           if (filter === 'bathroom') filters['bathroom'] = true;
         });
 
-        // Форматування об'єкта `filters` для використання в запиті
-        const formattedFilters = Object.entries(filters).reduce(
-          (acc, [key, value]) => {
-            acc[`filters[${key}]`] = value;
-            return acc;
-          },
-          {}
-        );
-
         // Очищення items перед запитом
         dispatch(clearCampers());
         dispatch(setPage(1));
         // Записуємо фільтри в Redux стейт
-        console.log(filters);
         dispatch(setFilters(filters));
 
         // Запит на сервер із правильним форматом параметрів
-        dispatch(getCampers(formattedFilters));
+        // dispatch(getCampers(formattedFilters));
       }}
     >
-      {({ handleSubmit, values, setFieldValue }) => (
-        <Form className={css.form_container} onSubmit={handleSubmit}>
+      {({ handleSubmit, handleReset, values, setFieldValue }) => (
+        <Form
+          className={css.form_container}
+          onSubmit={handleSubmit}
+          onReset={handleReset}
+        >
           <div className={css.location_container}>
             <h3 className={css.title_location}>Location</h3>
             <div className={css.input_container}>
@@ -226,7 +220,10 @@ const Filters = () => {
               <Field key={type.id} name="form" icon={type} component={radio} />
             ))}
           </div>
-          <Button type="submit" text="Search" className={css.submit_button} />
+          <div className={css.btn_box}>
+            <Button type="submit" text="Search" className={css.submit_button} />
+            <Button type="reset" text="Reset" className={css.reset_button} />
+          </div>
         </Form>
       )}
     </Formik>

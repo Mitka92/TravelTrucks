@@ -66,7 +66,9 @@ const CamperDetails = () => {
           <p className={css.location}>{location}</p>
         </div>
         <span>
-          <p className={css.price}>&#x20AC;{price}.00</p>
+          <p className={css.price}>
+            &#x20AC;{price ? Number(price).toFixed(2) : '0.00'}
+          </p>
         </span>
       </div>
       <div className={css.gallery_box}>

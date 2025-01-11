@@ -40,31 +40,32 @@ const CampersList = () => {
 
   return (
     <>
-      {
-        campers.length > 0 && (
-          <div className={css.campers_list_container}>
-            <ul className={css.campers_list}>
-              {campers.map(camper => (
-                <CampersListItem key={camper.id} {...camper} />
-              ))}
-            </ul>
-            {isLoading && <Loader />}
+      {isLoading ? (
+        <div className={css.campers_list_container}>
+          <Loader />
+        </div>
+      ) : campers.length > 0 && !isLoading ? (
+        <div className={css.campers_list_container}>
+          <ul className={css.campers_list}>
+            {campers.map(camper => (
+              <CampersListItem key={camper.id} {...camper} />
+            ))}
+          </ul>
+          {isLoading && <Loader />}
 
-            {buttonIsActive && (
-              <Button
-                className={css.load_more}
-                text="Load more"
-                onClick={loadMore}
-              />
-            )}
-          </div>
-        )
-        //  : (
-        //   <div className={css.campers_list_container}>
-        //     <p className={css.no_found}>No campers found</p>
-        //   </div>
-        // )
-      }
+          {buttonIsActive && (
+            <Button
+              className={css.load_more}
+              text="Load more"
+              onClick={loadMore}
+            />
+          )}
+        </div>
+      ) : (
+        <div className={css.campers_list_container}>
+          <p className={css.no_found}>No campers found</p>
+        </div>
+      )}
     </>
   );
 };

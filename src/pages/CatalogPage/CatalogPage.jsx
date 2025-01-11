@@ -7,9 +7,8 @@ import css from './CatalogPage.module.css';
 const CatalogPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getCampers());
     dispatch(getLocations());
-  }, [dispatch]);
+  }, []);
   return (
     <div className={css.catalog_container}>
       <Filters />
