@@ -1,14 +1,13 @@
 import css from './Filters.module.css';
 import { Formik, Field, Form } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCampers, setFilters } from '../../redux/campers/operations.js';
-import { clearCampers, setPage } from '../../redux/campers/slice.js';
+import { setFilters } from '../../redux/campers/operations.js';
+import { clearCampers, resetPage } from '../../redux/campers/slice.js';
 import Icon from '../Icon/Icon.jsx';
 import Button from '../Button/Button.jsx';
 import Select from 'react-select';
 import { components } from 'react-select';
 import { selectUniqueLocations } from '../../redux/campers/selectors.js';
-import { useEffect } from 'react';
 
 // Кастомний компонент Placeholder
 const CustomPlaceholder = props => {
@@ -131,12 +130,6 @@ const radio = ({ field, icon }) => {
 
 const Filters = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    // Скидаємо фільтри, якщо потрібно при виході або змінах на сторінці
-    return () => {
-      dispatch(setFilters({}));
-    };
-  }, [dispatch]);
 
   const locations = useSelector(selectUniqueLocations);
   const locationOptions = locations.map(location => {
@@ -174,10 +167,8 @@ const Filters = () => {
 
         // Очищення items перед запитом
         dispatch(clearCampers());
-        dispatch(setPage(1));
         // Записуємо фільтри в Redux стейт
         dispatch(setFilters(filters));
-
         // Запит на сервер із правильним форматом параметрів
         // dispatch(getCampers(formattedFilters));
       }}
@@ -230,7 +221,14 @@ const Filters = () => {
           </div>
           <div className={css.btn_box}>
             <Button type="submit" text="Search" className={css.submit_button} />
-            <Button type="reset" text="Reset" className={css.reset_button} />
+            <Button
+              onClick={() => {
+                dispatch(resetPage());
+              }}
+              type="reset"
+              text="Reset"
+              className={css.reset_button}
+            />
           </div>
         </Form>
       )}

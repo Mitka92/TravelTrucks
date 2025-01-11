@@ -23,9 +23,14 @@ const campersSlice = createSlice({
     },
     setFilters: (state, action) => {
       state.filters = action.payload; // Оновлюємо фільтри
+      console.log(action.payload);
     },
     setPage: (state, action) => {
       state.page = action.payload; // Оновлюємо сторінку
+    },
+    resetPage: state => {
+      state.page = 1;
+      console.log(state.page);
     },
     toggleFavorite: (state, action) => {
       const camperId = action.payload;
@@ -92,5 +97,6 @@ export const {
   setPage,
   toggleFavorite,
   setLocations,
+  resetPage,
 } = campersSlice.actions;
 export const campersReducer = campersSlice.reducer;
