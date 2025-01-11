@@ -40,11 +40,11 @@ const CampersList = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && !campers.length ? (
         <div className={css.campers_list_container}>
           <Loader />
         </div>
-      ) : campers.length > 0 && !isLoading ? (
+      ) : campers.length > 0 ? (
         <div className={css.campers_list_container}>
           <ul className={css.campers_list}>
             {campers.map(camper => (
@@ -55,8 +55,8 @@ const CampersList = () => {
 
           {buttonIsActive && (
             <Button
-              className={css.load_more}
-              text="Load more"
+              className={isLoading ? css.load_more_loading : css.load_more}
+              text={isLoading ? 'Loading...' : 'Load more'}
               onClick={loadMore}
             />
           )}
