@@ -8,6 +8,7 @@ import Button from '../Button/Button.jsx';
 import Select from 'react-select';
 import { components } from 'react-select';
 import { selectUniqueLocations } from '../../redux/campers/selectors.js';
+import { useEffect } from 'react';
 
 // Кастомний компонент Placeholder
 const CustomPlaceholder = props => {
@@ -129,6 +130,14 @@ const radio = ({ field, icon }) => {
 };
 
 const Filters = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // Скидаємо фільтри, якщо потрібно при виході або змінах на сторінці
+    return () => {
+      dispatch(setFilters({}));
+    };
+  }, [dispatch]);
+
   const locations = useSelector(selectUniqueLocations);
   const locationOptions = locations.map(location => {
     const [country, city] = location.split(', ');
@@ -138,7 +147,6 @@ const Filters = () => {
     };
   });
 
-  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{
